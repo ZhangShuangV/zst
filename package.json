@@ -1,0 +1,28 @@
+{
+  "name": "zst",
+  "version": "1.0.0",
+  "description": "zst,fe,tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "fe",
+    "tool"
+  ],
+  "author": "shuang",
+  "license": "ISC",
+  "devDependencies": {
+    "cheerio": "^0.22.0",
+    "commander": "^2.9.0",
+    "express": "^4.15.2",
+    "socket.io": "^1.7.3",
+    "uglifyjs": "^2.4.10",
+    "uglifycss": "0.0.25",
+    "watch": "^1.0.2"
+  },
+  "bin": {
+    "zst": "./index.js"
+  }
+}

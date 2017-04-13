@@ -1,0 +1,53 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: Arial, sans-serif;
+  line-height: 1;
+  font-size: 16px;
+}
+
+body {
+  word-wrap: break-word;
+  -webkit-text-size-adjust: none;
+}
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+
+  /* this is a personal preference */
+  box-sizing: border-box;
+
+  /* suppressing the tap highlight */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+p img {
+  float: left;
+  margin: 0 10px 5px 0;
+  padding: 0;
+}
+
+img {
+  border: 0;
+  max-width: 100%;
+}
+
+table {
+  width: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+button {
+  outline: none;
+}
