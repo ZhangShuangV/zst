@@ -1,7 +1,0 @@
-<script src="/socket.io/socket.io.js"></script>
-<script>
-    var socket = io.connect('ws://localhost:3000');
-    socket.on('file-change', function (data) {
-        location.reload();
-    });
-</script>
