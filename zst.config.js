@@ -20,7 +20,7 @@ var io = require('socket.io').listen(server);
 
 var $ = cheerio.load(getHtml()); //获取index.html内容并在index.html中添加socket.xml，使得项目可以实现修改文件内容自动更新
 
-var config = { //项目配置
+const config = { //项目配置
     server: {
         ip: "http://localhost",
         port: 3000
@@ -28,7 +28,7 @@ var config = { //项目配置
     input: "./src", //getHtml()方法中的用的不是变量，是写死的数据，如果此处发生修改，请对应修改
     output: "./dist",
     info: "INFO  ",
-
+    isPhone: true, //是否是手机
 };
 
 command.version(package.version); //版本号
@@ -46,11 +46,14 @@ function develop() { //开发环境执行
 }
 
 app.get('/', function (req, res) {
-    res.send(getHtml());
+    res.send(getHtml(config.isPhone));
 });
 
-function getHtml() { //获取index.html
-    return fs.readFileSync('./src/index.html', 'utf-8') + fs.readFileSync('./socket.xml');
+function getHtml(isPhone) { //获取index.html
+    // console.log(config);
+    var devHtml = fs.readFileSync('./src/index.html', 'utf-8') + fs.readFileSync('./socket.xml');
+    if(isPhone) return fs.readFileSync('./isphone.xml') + devHtml; //其实运行`zst dist`命令时，isPhone的值为undefined，所以会一直走else部分
+    else return devHtml;
 }
 
 app.use(express.static(config.input)); //将静态文件路径指向'./src'
@@ -79,8 +82,16 @@ function bundle() { //合并压缩css、js并添加时间戳，移动index.html�
     handleJs(); //处理js
     handleHtml(); //删除html中的注释
     handleIcon(); //移动favicon.ico文件
+    if(config.isPhone) handleIsPhone(); //如果是移动端就插入移动端meta及rem换算
+
     fs.writeFileSync(config.output+'/index.html', $.html()); //写入./dist/index.html
     log('Finish bundle');
+}
+
+function handleIsPhone() { //添加移动端meta及换算rem
+    let phoneScript = fs.readFileSync('./isphone.xml') + ''; //读取的数据需要转换成字符串才能append到head中
+    $('head').append(phoneScript);
+    log('Append phoneScript succeed');
 }
 
 function handleCss() { //处理css
@@ -122,14 +133,14 @@ function handleJs() { //处理js
         let scriptArr = [];
         let script = $('script');
         for(let i = 0, len = script.length - 2; i < len; i++) { //length-2是因为会在html最后增添socket.xml中的script标签
-            scriptArr.push(config.input+"/" + script[i].attribs.src);
+            if(script[i].attribs.src) scriptArr.push(config.input+"/" + script[i].attribs.src); //如果有这个属性就添加到scriptArr中，之后会进行合并压缩
         }
         script.remove(); //删除原来的script标签
         return scriptArr;
     }
 }
 
-function handleIcon() { //处理favicon.ico
+function handleIcon() { //处理favicon.ico，移动文件
     let inputPath = config.input + '/img/favicon.ico';
     let outputPath = config.output + '/favicon.ico';
     let readStream = fs.createReadStream(inputPath);
@@ -179,7 +190,7 @@ function handleHtml() { //处理html
     log('Create index.html succeed');
 }
 
-function log(info, during) {
+function log(info, during) { //自定义console.log()
     if(!during) console.log(config.info + info);
     else console.log(config.info + info + ' in '+ during + ' μs')
 

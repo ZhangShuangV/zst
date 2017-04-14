@@ -4,14 +4,14 @@ html,body{
 }
 .welcome{
     text-align: center;
-    margin-top: 250px;
+    padding-top: 1.5rem;
 }
 h3{
-    font-size: 46px;
+    font-size: .46rem;
     color: #333;
 }
 p{
     color: #444;
-    font-size: 32px;
-    margin-top: 6px;
+    font-size: .32rem;
+    margin-top: .06rem;
 }
