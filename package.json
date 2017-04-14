@@ -1,6 +1,6 @@
 {
   "name": "zst",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "zst,fe,tool",
   "main": "zst.config.js",
   "scripts": {

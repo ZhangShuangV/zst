@@ -3,7 +3,7 @@
 
 ## Installation
 `npm install zst -g`  
-make sure zst installed you an `zst --version`
+make sure zst installed, you an use `zst --version`
 
 ## Purpose
 The intention of this project is provide a tool that make managing the fe develop.

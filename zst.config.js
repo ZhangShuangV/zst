@@ -73,7 +73,6 @@ io.sockets.on('connection', function (socket) {
 });
 
 function bundle() { //合并压缩css、js并添加时间戳，移动index.html文件
-    let start = new Date().getMilliseconds();
     log('Start bundle');
     handleDir(); //处理输出目录
     handleCss(); //处理css
@@ -81,17 +80,14 @@ function bundle() { //合并压缩css、js并添加时间戳，移动index.html�
     handleHtml(); //删除html中的注释
     handleIcon(); //移动favicon.ico文件
     fs.writeFileSync(config.output+'/index.html', $.html()); //写入./dist/index.html
-    let end = new Date().getMilliseconds();
-    log('Finish bundle', end-start);
+    log('Finish bundle');
 }
 
 function handleCss() { //处理css
-    let start = new Date().getMilliseconds();
     let uglifiedCss = uglifyCss.processFiles(getCssArr(), { maxLineLen: 500, expandVars: true}); // 合并压缩css
     var cssName = "./bundle." + new Date().getTime() + ".css"; //添加时间戳
     fs.writeFileSync(config.output+'/'+cssName.slice(1), uglifiedCss); //将合并的css文件写入bundle.css
-    let end = new Date().getMilliseconds();
-    log('Create bundle.css succeed', end-start);
+    log('Create bundle.css succeed');
     $('head').append('<link href="'+cssName+'" rel="stylesheet"/>'); //在html中添加打包好的css、js文件
 
     function getCssArr() { //获取css的href属性列表
@@ -109,7 +105,6 @@ function handleCss() { //处理css
 }
 
 function handleJs() { //处理js
-    let start = new Date().getMilliseconds();
     let uglifiedJs = uglifyJS.minify(getJsArr(), { //合并压缩js
         compress: {
             dead_code: true,
@@ -120,8 +115,7 @@ function handleJs() { //处理js
     });
     var jsName = "./bundle." + new Date().getTime() + ".js";
     fs.writeFileSync(config.output+'/'+jsName.slice(1), uglifiedJs.code);
-    let end = new Date().getMilliseconds();
-    log('Create bundle.js succeed', end-start);
+    log('Create bundle.js succeed');
     $('body').append('<script src="'+jsName+'" /></script>');
 
     function getJsArr() { //获取js的src属性列表
@@ -136,31 +130,27 @@ function handleJs() { //处理js
 }
 
 function handleIcon() { //处理favicon.ico
-    let start = new Date().getMilliseconds();
     let inputPath = config.input + '/img/favicon.ico';
     let outputPath = config.output + '/favicon.ico';
     let readStream = fs.createReadStream(inputPath);
     let writeStream = fs.createWriteStream(outputPath);
     readStream.pipe(writeStream);
-    let end = new Date().getMilliseconds();
-    log('Create favicon.ico succeed', end-start);
+    log('Create favicon.ico succeed');
 }
 
 function handleDir() { //删除原有目录，生成新目录
     let dirpath = config.output;
-    let start = new Date().getMilliseconds();
-    let end = null;
     if(fs.existsSync(dirpath)) { //监测目录是否存在
         delDir(dirpath); //存在就递归删除目录
         end = new Date().getMilliseconds();
-        log('Delete '+dirpath.slice(2)+' dir succeed', end-start);
+        log('Delete '+dirpath.slice(2)+' dir succeed');
         fs.mkdirSync(dirpath); //生成目录
         end = new Date().getMilliseconds();
-        log('Create '+dirpath.slice(2) + ' dir succeed', end-start);
+        log('Create '+dirpath.slice(2) + ' dir succeed');
     }else {
         fs.mkdirSync(dirpath); //生成目录
         end = new Date().getMilliseconds();
-        log('Create '+dirpath.slice(2) + ' dir succeed', end-start);
+        log('Create '+dirpath.slice(2) + ' dir succeed');
     }
 
     function delDir(path) { //递归删除生产环境输出目录
@@ -179,7 +169,6 @@ function handleDir() { //删除原有目录，生成新目录
 }
 
 function handleHtml() { //处理html
-    let start = new Date().getMilliseconds();
     let regex = /<!--[\s\S]*?-->/g; //删除html中的注释
     let html = $.html().replace(regex, '');
 
@@ -187,8 +176,7 @@ function handleHtml() { //处理html
     html = html.replace(regex, '');
 
     $('html').html(html); //重新赋值html文件
-    let end = new Date().getMilliseconds();
-    log('Create index.html succeed', end-start);
+    log('Create index.html succeed');
 }
 
 function log(info, during) {
