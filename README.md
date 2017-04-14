@@ -12,8 +12,9 @@ Realize livereload: When you are in development environment, this tool will help
 #### production
 1. bundle css/js;
 2. add timestamp;
-3. generate new html
+3. generate new html without annotation
+4. copy favicon.ico
 
 ## API
 Publish: `zst dist`  
-Develop: `zst`
+Develop: `zst dev`
