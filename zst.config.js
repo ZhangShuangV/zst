@@ -34,8 +34,8 @@ const config = { //项目配置
 command.version(package.version); //版本号
     // .option('-p, --peppers', 'Add peppers')
     // .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
-command.command('dev').action(function () { develop(); }); //开发环境，输入 zst dev 执行 develop()方法，并打开浏览器;
-command.command('dist').action(function () { bundle(); }); //命令模块，输入 zst dist 执行 bundle()方法，打包;
+command.command('dev').action(function () { develop(); }); //开发环境，输入 `zst dev` 执行 develop()方法，并打开浏览器;
+command.command('dist').action(function () { bundle(); }); //命令模块，输入 `zst dist` 执行 bundle()方法，打包;
 command.parse(process.argv); //开始解析用户输入的命令，这个不能跟上面的命令放到同一行
 
 function develop() { //开发环境执行
@@ -51,7 +51,7 @@ app.get('/', function (req, res) {
 
 function getHtml(isPhone) { //获取index.html
     // console.log(config);
-    var devHtml = fs.readFileSync('./src/index.html', 'utf-8') + fs.readFileSync('./socket.xml');
+    var devHtml = fs.readFileSync('./src/index.html', 'utf-8') + fs.readFileSync('./socket.xml'); //这里不管是运行`zst dev`还是`zst dist`都会添加socket，还待修改，同时还要改动handleJs()
     if(isPhone) return fs.readFileSync('./isphone.xml') + devHtml; //其实运行`zst dist`命令时，isPhone的值为undefined，所以会一直走else部分
     else return devHtml;
 }
@@ -104,7 +104,8 @@ function handleCss() { //处理css
     function getCssArr() { //获取css的href属性列表
         let cssArr = [];
         let link = $('link');
-        let ico = $('link')[$('link').length - 1];
+        let ico = $('link')[$('link').length - 1]; //找到favicon.ico的link标签
+        // let ico = $('link').pop();
         ico.attribs.href = './favicon.ico';
         for(let i = 0, len = link.length - 1; i < len; i++) { //length-1是因为有favicon
             cssArr.push(config.input+link[i].attribs.href.slice(1));
