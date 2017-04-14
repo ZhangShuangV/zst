@@ -15,5 +15,5 @@ Realize livereload: When you are in development environment, this tool will help
 3. generate new html
 
 ## API
-Publish: `zst dist`
+Publish: `zst dist`  
 Develop: `zst`
