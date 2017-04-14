@@ -2,7 +2,8 @@
 前端构建工具
 
 ## Installation
-`npm install zst`
+`npm install zst -g`  
+make sure zst installed you an `zst --version`
 
 ## Purpose
 The intention of this project is provide a tool that make managing the fe develop.

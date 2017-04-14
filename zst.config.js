@@ -149,16 +149,17 @@ function handleIcon() { //处理favicon.ico
 function handleDir() { //删除原有目录，生成新目录
     let dirpath = config.output;
     let start = new Date().getMilliseconds();
+    let end = null;
     if(fs.existsSync(dirpath)) { //监测目录是否存在
         delDir(dirpath); //存在就递归删除目录
-        let end = new Date().getMilliseconds();
+        end = new Date().getMilliseconds();
         log('Delete '+dirpath.slice(2)+' dir succeed', end-start);
         fs.mkdirSync(dirpath); //生成目录
         end = new Date().getMilliseconds();
         log('Create '+dirpath.slice(2) + ' dir succeed', end-start);
     }else {
         fs.mkdirSync(dirpath); //生成目录
-        let end = new Date().getMilliseconds();
+        end = new Date().getMilliseconds();
         log('Create '+dirpath.slice(2) + ' dir succeed', end-start);
     }
 
