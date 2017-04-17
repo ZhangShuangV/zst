@@ -25,15 +25,13 @@ const config = { //项目配置
         ip: "http://localhost",
         port: 3000
     },
-    input: "./src", //getHtml()方法中的用的不是变量，是写死的数据，如果此处发生修改，请对应修改
+    input: "./src",
     output: "./dist",
     info: "INFO  ",
     isPhone: true, //是否是手机
 };
 
 command.version(package.version); //版本号
-    // .option('-p, --peppers', 'Add peppers')
-    // .option('-c, --cheese [type]', 'Add the specified type of cheese [marble]', 'marble')
 command.command('dev').action(function () { develop(); }); //开发环境，输入 `zst dev` 执行 develop()方法，并打开浏览器;
 command.command('dist').action(function () { bundle(); }); //命令模块，输入 `zst dist` 执行 bundle()方法，打包;
 command.parse(process.argv); //开始解析用户输入的命令，这个不能跟上面的命令放到同一行
@@ -43,15 +41,17 @@ function develop() { //开发环境执行
         log('server start at '+config.server.ip+":"+config.server.port);
         open(config.server.ip+":"+config.server.port); //自动打开浏览器
     });
+
+    app.get('/', function (req, res) {
+        res.send(getHtml(config.isPhone,config.input));
+    });
 }
 
-app.get('/', function (req, res) {
-    res.send(getHtml(config.isPhone));
-});
 
-function getHtml(isPhone) { //获取index.html
-    // console.log(config);
-    var devHtml = fs.readFileSync('./src/index.html', 'utf-8') + fs.readFileSync('./socket.xml'); //这里不管是运行`zst dev`还是`zst dist`都会添加socket，还待修改，同时还要改动handleJs()
+
+function getHtml(isPhone,path) { //获取index.html
+    var path = path || './src';
+    var devHtml = fs.readFileSync(path +'/index.html', 'utf-8') + fs.readFileSync('./socket.xml'); //这里不管是运行`zst dev`还是`zst dist`都会添加socket，还待修改，同时还要改动handleJs()
     if(isPhone) return fs.readFileSync('./isphone.xml') + devHtml; //其实运行`zst dist`命令时，isPhone的值为undefined，所以会一直走else部分
     else return devHtml;
 }
