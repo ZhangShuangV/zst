@@ -1,0 +1,8 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    // var socket = io.connect('ws://localhost:3000');
+    var socket = io.connect('ws://169.254.118.104:3000'); //需要填写本机的ip+3000端口
+    socket.on('file-change', function (data) {
+        location.reload();
+    });
+</script>
