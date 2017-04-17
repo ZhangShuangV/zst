@@ -1,6 +1,6 @@
 {
-  "name": "zst",
-  "version": "0.0.6",
+  "name": "zst-web",
+  "version": "0.0.7",
   "description": "zst,fe,tool",
   "main": "zst.config.js",
   "scripts": {
@@ -14,7 +14,7 @@
   ],
   "author": "shuang",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "cheerio": "^0.22.0",
     "commander": "^2.9.0",
     "express": "^4.15.2",
@@ -24,7 +24,6 @@
     "uglifyjs": "^2.4.10",
     "watch": "^1.0.2"
   },
-  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/ZhangShuangV/zst"
